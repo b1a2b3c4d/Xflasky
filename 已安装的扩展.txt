@@ -7,3 +7,18 @@ pip install flask-moment
 pip install flask-wtf
 pip install flask-sqlalchemy
 pip install flask-migrate
+pip install flask-mail
+set MAIL_USERNAME=b1a2b3c4d@163.com
+set MAIL_PASSWORD=8790bcd6
+set FLASKY_ADMIN=b1a2b3c4d@163.com
+import os
+print os.environ.get('MAIL_USERNAME')
+print os.environ.get('MAIL_PASSWORD')
+
+from flask_mail import Message
+from hello import mail
+msg = Message('test subject', sender='b1a2b3c4d@163.com',recipients=['b1a2b3c4d@163.com'])
+msg.body = 'text body'
+msg.html = '<b>HTML</b> body'
+with app.app_context():
+mail.send(msg)
