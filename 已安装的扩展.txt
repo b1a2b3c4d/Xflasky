@@ -1,6 +1,7 @@
 venv\Scripts\activate
 deactivate
 python hello.py runserver
+python manage.py test
 pip install flask-script
 pip install flask-bootstrap
 pip install flask-moment
