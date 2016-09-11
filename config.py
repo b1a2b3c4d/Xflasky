@@ -8,7 +8,6 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = '[XFlasky]'
     FLASKY_MAIL_SENDER = 'b1a2b3c4d@163.com'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-    DEBUG = True
     MAIL_SERVER = 'smtp.163.com'
     MAIL_PORT = 25
     MAIL_USE_TLS = True

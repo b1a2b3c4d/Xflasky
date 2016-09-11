@@ -1,7 +1,8 @@
 #code:utf-8
-from flask_mail import Mail
 from flask_mail import Message
 from threading import Thread
+from flask import render_template
+from . import mail
 
 def send_async_email(app, msg):
     with app.app_context():

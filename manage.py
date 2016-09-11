@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#code:utf-8
+#coding:utf-8
 import os
 from app import create_app, db
 from app.models import User, Role
