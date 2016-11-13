@@ -7,6 +7,19 @@ from .. import db
 from flask_login import login_required, current_user
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm, CommentForm
 from ..decorators import admin_required, permission_required
+from flask_sqlalchemy import get_debug_queries
+
+
+@main.after_app_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= current_app.config['FLASKY_DB_QUERY_TIMEOUT']:
+            current_app.logger.warning(
+                'Slow query: %s\nParameters: %s\nDuration: %fs\nContext: %s\n'
+                % (query.statement, query.parameters, query.duration,
+                   query.context))
+    return response
+
 
 @main.route('/shutdown')
 def server_shutdown():
@@ -18,25 +31,26 @@ def server_shutdown():
     shutdown()
     return 'Shutting down...'
 
+
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
 
     if current_user.can(Permission.WRITE_ARTICLES) and \
-        form.validate_on_submit():#判断用户权限和表格验证
+        form.validate_on_submit():# 判断用户权限和表格验证
         post = Post(body=form.body.data,
                     author=current_user._get_current_object())
-        #实例化文章内容，调用_get_current_object()获取真正的用户对象
+        # 实例化文章内容，调用_get_current_object()获取真正的用户对象
         db.session.add(post)
         return redirect(url_for('.index'))
     page = request.args.get('page', 1, type=int)
-    #To access parameters submitted in the URL (?key=value)
+    # To access parameters submitted in the URL (?key=value)
     # you can use the args attribute:request.args.get
-    #详见 http://flask.pocoo.org/docs/0.11/quickstart/#the-request-object
+    # 详见 http://flask.pocoo.org/docs/0.11/quickstart/#the-request-object
     show_followed = False
     if current_user.is_authenticated:
         show_followed = bool(request.cookies.get('show_followed', ''))
-        #request.cookies.get()的参数第一个是cookies名,第二个是cookies值
+        # request.cookies.get()的参数第一个是cookies名,第二个是cookies值
     if show_followed:
         query = current_user.followed_posts
     else:
