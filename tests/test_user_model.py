@@ -1,15 +1,14 @@
-<<<<<<< HEAD
 #coding:utf-8
 import unittest
 from app import create_app, db
 from app.models import User
-=======
+
 import unittest
 import time
 from datetime import datetime
 from app import create_app, db
 from app.models import User, AnonymousUser, Role, Permission, Follow
->>>>>>> banch17.4.3
+
 
 
 class UserModelTestCase(unittest.TestCase):
@@ -18,10 +17,9 @@ class UserModelTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-<<<<<<< HEAD
-=======
+
+
         Role.insert_roles()
->>>>>>> banch17.4.3
 
     def tearDown(self):
         db.session.remove()
@@ -45,9 +43,8 @@ class UserModelTestCase(unittest.TestCase):
     def test_password_salts_are_random(self):
         u = User(password='cat')
         u2 = User(password='cat')
-<<<<<<< HEAD
         self.assertTrue(u.password_hash != u2.password_hash)
-=======
+
         self.assertTrue(u.password_hash != u2.password_hash)
 
     def test_valid_confirmation_token(self):
@@ -210,4 +207,3 @@ class UserModelTestCase(unittest.TestCase):
                          'posts', 'followed_posts', 'post_count']
         self.assertEqual(sorted(json_user.keys()), sorted(expected_keys))
         self.assertTrue('api/v1.0/users/' in json_user['url'])
->>>>>>> banch17.4.3

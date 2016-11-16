@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-from flask import render_template
-from . import main
-
-
-@main.route('/')
-def index():
-    return render_template('index.html')
-=======
-#coding:utf-8
+# coding:utf-8
 from flask import render_template, abort, redirect, url_for, flash, request,\
     current_app, make_response
 from ..models import User, Role, Post, Permission, Comment
@@ -44,9 +35,9 @@ def server_shutdown():
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
-
     if current_user.can(Permission.WRITE_ARTICLES) and \
-        form.validate_on_submit():# 判断用户权限和表格验证
+        form.validate_on_submit():
+        # 判断用户权限和表格验证
         post = Post(body=form.body.data,
                     author=current_user._get_current_object())
         # 实例化文章内容，调用_get_current_object()获取真正的用户对象
@@ -68,7 +59,7 @@ def index():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
-    #分页显示文章
+    # 分页显示文章
     return render_template('index.html', form=form, posts=posts,
                            show_followed=show_followed,
                            pagination=pagination)
@@ -165,6 +156,7 @@ def edit(id):
     form.body.data = post.body
     return render_template('edit_post.html', form=form)
 
+
 @main.route('/follow/<username>')
 @login_required
 @permission_required(Permission.FOLLOW)
@@ -179,6 +171,7 @@ def follow(username):
     current_user.follow(user)
     flash('You are now following %s.' % username)
     return redirect(url_for('.user', username=username))
+
 
 @main.route('/unfollow/<username>')
 @login_required
@@ -245,6 +238,7 @@ def show_followed():
     resp.set_cookie('show_followed', '1', max_age=30*24*60*60)
     return resp
 
+
 @main.route('/moderate')
 @login_required
 @permission_required(Permission.MODERATE_COMMENTS)
@@ -256,6 +250,7 @@ def moderate():
     comments = pagination.items
     return render_template('moderate.html', comments=comments,
                            pagination=pagination, page=page)
+
 
 @main.route('/moderate/enable/<int:id>')
 @login_required
@@ -277,4 +272,3 @@ def moderate_disable(id):
     db.session.add(comment)
     return redirect(url_for('.moderate',
                             page=request.args.get('page', 1, type=int)))
->>>>>>> banch17.4.3

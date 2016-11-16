@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-from flask_wtf import Form
-from wtforms import StringField, SubmitField
-from wtforms.validators import Required
-
-
-class NameForm(Form):
-    name = StringField('What is your name?', validators=[Required()])
-=======
 #coding:utf-8
 from flask_wtf import Form
 from wtforms import StringField, SubmitField, \
@@ -15,6 +6,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp
 from ..models import User, Role
 from wtforms import ValidationError
 from flask_pagedown.fields import PageDownField
+
 
 class NameForm(Form):
     name = StringField('What is your name?', validators=[DataRequired()])
@@ -61,10 +53,9 @@ class EditProfileAdminForm(Form):
 
 class PostForm(Form):
     body = PageDownField("What's on your mind?", validators=[DataRequired()])
-    submit =SubmitField('Submit')
+    submit = SubmitField('Submit')
 
 
 class CommentForm(Form):
     body = StringField('', validators=[DataRequired()])
->>>>>>> banch17.4.3
     submit = SubmitField('Submit')
