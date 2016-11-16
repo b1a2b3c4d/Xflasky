@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 venv\Scripts\activate
 deactivate
 python manage.py shell
@@ -20,3 +21,22 @@ set FLASKY_ADMIN=b1a2b3c4d@163.com
 u = User(email='john@example.com', username='john', password='cat')
 db.session.add(u)
 db.session.commit()
+=======
+venv\Scripts\activate
+deactivate
+python manage.py runserver
+python manage.py test
+pip install flask-script
+pip install flask-bootstrap
+pip install flask-moment
+pip install flask-wtf
+pip install flask-sqlalchemy
+pip install flask-migrate
+pip install flask-mail
+
+python manage.py shell
+u = User(email='john@example.com', username='john', password='cat')
+db.session.add(u)
+db.session.commit()
+set FLASKY_ADMIN=b1a2b3c4d@163.com
+>>>>>>> banch17.4.3

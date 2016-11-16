@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #coding:utf-8
 #__init__文件为构造文件
 from flask import Flask, render_template
@@ -39,4 +40,52 @@ def create_app(config_name):#工厂函数，接受的参数是程序使用的配
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')#将蓝本auth注册到程序上，url_prefix是可选参数。使用了之后蓝本（blueprint）中定义的所有路由都会加上指定的前缀，即这个例子中的 /auth。
     
+=======
+#coding:utf-8
+from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
+from flask_mail import Mail
+from flask_moment import Moment
+from flask_sqlalchemy import SQLAlchemy
+from config import config
+from flask_login import LoginManager
+from flask_pagedown import PageDown
+
+bootstrap = Bootstrap()
+mail = Mail()
+moment = Moment()
+db = SQLAlchemy()
+pagedown = PageDown()
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
+
+
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
+
+    bootstrap.init_app(app)
+    mail.init_app(app)
+    moment.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+    pagedown.init_app(app)
+    # 附加路由和自定义的错误页面
+
+    if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
+        from flask.ext.sslify import SSLify
+        sslify = SSLify(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    from .api_1_0 import api as api_1_0_blueprint
+    app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1.0')
+
+>>>>>>> banch17.4.3
     return app
